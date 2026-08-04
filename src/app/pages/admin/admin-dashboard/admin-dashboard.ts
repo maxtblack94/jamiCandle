@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SupabaseService, Product } from '../../../core/services/supabase.service';
@@ -33,7 +33,11 @@ export class AdminDashboard implements OnInit {
   confirmMsg    = '';
   private confirmFn?: () => Promise<void>;
 
-  constructor(private supabase: SupabaseService, private router: Router) {}
+  constructor(
+    private supabase: SupabaseService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadProducts();
@@ -46,7 +50,10 @@ export class AdminDashboard implements OnInit {
     this.productsLoading = true;
     try { this.products = await this.supabase.getProducts(); }
     catch (e: any) { console.error(e); }
-    finally { this.productsLoading = false; }
+    finally {
+      this.productsLoading = false;
+      this.cdr.markForCheck();
+    }
   }
 
   openProductForm(product?: Product) {
@@ -62,6 +69,8 @@ export class AdminDashboard implements OnInit {
 
   async saveProduct(e: Event) {
     e.preventDefault();
+    if (this.formSaving) return;
+
     this.formSaving = true;
     this.formError  = '';
     try {
@@ -72,6 +81,7 @@ export class AdminDashboard implements OnInit {
       this.formError = err.message ?? 'Errore nel salvataggio.';
     } finally {
       this.formSaving = false;
+      this.cdr.markForCheck();
     }
   }
 
@@ -84,7 +94,10 @@ export class AdminDashboard implements OnInit {
       this.productForm.image_url = url;
       await this.loadImages();
     } catch (e: any) { alert('Errore upload: ' + e.message); }
-    finally { this.uploadingProductImg = false; }
+    finally {
+      this.uploadingProductImg = false;
+      this.cdr.markForCheck();
+    }
   }
 
   confirmDeleteProduct(p: Product) {
@@ -101,7 +114,10 @@ export class AdminDashboard implements OnInit {
     this.imagesLoading = true;
     try { this.images = await this.supabase.listImages(); }
     catch (e: any) { console.error(e); }
-    finally { this.imagesLoading = false; }
+    finally {
+      this.imagesLoading = false;
+      this.cdr.markForCheck();
+    }
   }
 
   async onUpload(event: Event) {
@@ -112,7 +128,10 @@ export class AdminDashboard implements OnInit {
       await Promise.all(files.map(f => this.supabase.uploadImage(f)));
       await this.loadImages();
     } catch (e: any) { alert('Errore upload: ' + e.message); }
-    finally { this.imagesLoading = false; }
+    finally {
+      this.imagesLoading = false;
+      this.cdr.markForCheck();
+    }
   }
 
   confirmDeleteImage(img: { name: string }) {

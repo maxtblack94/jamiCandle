@@ -8,31 +8,39 @@
       </p>
     </div>
 
-    <div class="collection__grid">
-      @for (product of products; track product.id) {
-        <article class="product-card">
-          @if (product.tag) {
-            <span class="product-card__tag">{{ product.tag }}</span>
-          }
-          <div class="product-card__image">
-            <img
-              class="product-card__img"
-              [src]="product.image"
-              [alt]="product.name"
-              loading="lazy"
-            >
-          </div>
-          <div class="product-card__body">
-            <p class="product-card__notes">{{ product.notes }}</p>
-            <h3 class="product-card__name">{{ product.name }}</h3>
-            <p class="product-card__description">{{ product.description }}</p>
-            <div class="product-card__footer">
-              <span class="product-card__price">{{ product.price }}</span>
-              <a href="#contact" class="product-card__cta">Richiedi info</a>
+    @if (loading) {
+      <p class="collection__state">Caricamento collezione…</p>
+    } @else if (errorMsg) {
+      <p class="collection__state collection__state--error">{{ errorMsg }}</p>
+    } @else {
+      <div class="collection__grid">
+        @for (product of products; track product.id ?? product.name) {
+          <article class="product-card">
+            @if (product.tag) {
+              <span class="product-card__tag">{{ product.tag }}</span>
+            }
+            <div class="product-card__image">
+              <img
+                class="product-card__img"
+                [src]="product.image"
+                [alt]="product.name"
+                loading="lazy"
+              >
             </div>
-          </div>
-        </article>
-      }
-    </div>
+            <div class="product-card__body">
+              <p class="product-card__notes">{{ product.notes }}</p>
+              <h3 class="product-card__name">{{ product.name }}</h3>
+              <p class="product-card__description">{{ product.description }}</p>
+              <div class="product-card__footer">
+                <span class="product-card__price">{{ product.price }}</span>
+                <a href="#contact" class="product-card__cta">Richiedi info</a>
+              </div>
+            </div>
+          </article>
+        } @empty {
+          <p class="collection__state">La collezione sarà disponibile a breve.</p>
+        }
+      </div>
+    }
   </div>
 </section>

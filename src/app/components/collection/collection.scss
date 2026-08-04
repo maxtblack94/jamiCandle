@@ -36,6 +36,17 @@
     @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
     @media (max-width: 580px) { grid-template-columns: 1fr; }
   }
+
+  &__state {
+    color: var(--color-brown-mid);
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+
+    &--error {
+      color: var(--color-orange);
+    }
+  }
 }
 
 .product-card {

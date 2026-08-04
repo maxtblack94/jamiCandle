@@ -34,23 +34,31 @@
         <div class="contact__form-row">
           <div class="form-group">
             <label for="name">Nome</label>
-            <input id="name" type="text" placeholder="Il tuo nome" [(ngModel)]="formData.name" required>
+            <input id="name" name="name" type="text" placeholder="Il tuo nome" [(ngModel)]="formData.name" required>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="email" placeholder="La tua email" [(ngModel)]="formData.email" required>
+            <input id="email" name="email" type="email" placeholder="La tua email" [(ngModel)]="formData.email" required>
           </div>
         </div>
         <div class="form-group">
           <label for="message">Messaggio</label>
-          <textarea id="message" rows="4" placeholder="Raccontaci cosa stai cercando..." [(ngModel)]="formData.message" required></textarea>
+          <textarea id="message" name="message" rows="4" placeholder="Raccontaci cosa stai cercando..." [(ngModel)]="formData.message" required></textarea>
         </div>
-        @if (submitted) {
+        @if (formState === 'success') {
           <div class="contact__success">
             ✅ Grazie! Ti risponderemo presto con tanta luce.
           </div>
+          <button type="button" class="contact__submit" (click)="resetForm()">Invia un altro messaggio</button>
+        } @else if (formState === 'error') {
+          <div class="contact__error">
+            Invio non riuscito. {{ errorMsg }}
+          </div>
+          <button type="button" class="contact__submit" (click)="resetForm()">Riprova</button>
         } @else {
-          <button type="submit" class="contact__submit">Invia il messaggio</button>
+          <button type="submit" class="contact__submit" [disabled]="formState === 'loading'">
+            {{ formState === 'loading' ? 'Invio in corso…' : 'Invia il messaggio' }}
+          </button>
         }
       </form>
     </div>

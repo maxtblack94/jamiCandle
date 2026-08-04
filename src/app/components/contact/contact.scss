@@ -115,6 +115,16 @@
     font-size: 15px;
   }
 
+  &__error {
+    background: rgba(255,95,87,.12);
+    border: 1.5px solid rgba(255,95,87,.35);
+    color: #ffaaa5;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-size: 15px;
+  }
+
   &__submit {
     align-self: center;
     background: var(--color-brown-dark);
@@ -124,6 +134,12 @@
     padding: 14px 36px;
     border-radius: 50px;
     transition: background var(--transition), transform var(--transition);
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: .7;
+      transform: none;
+    }
 
     &:hover {
       background: var(--color-orange);

@@ -1,13 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Product, SupabaseService } from '../../core/services/supabase.service';
 
-interface Product {
-  id: number;
-  name: string;
-  notes: string;
-  description: string;
-  price: string;
-  tag?: string;
-  bgColor: string;
+interface CollectionProduct extends Product {
   image: string;
 }
 
@@ -17,36 +11,49 @@ interface Product {
   templateUrl: './collection.html',
   styleUrl: './collection.scss',
 })
-export class Collection {
-  products: Product[] = [
-    {
-      id: 1,
-      name: "Pomeriggio d'Ambra",
-      notes: 'Fico maturo · Cedro · Vaniglia',
-      description: 'Un profumo avvolgente, come un pomeriggio lento tra libri e luce dorata.',
-      price: '€ 35',
-      tag: 'Bestseller',
-      bgColor: 'linear-gradient(135deg, #e8d5b0, #c9a97c)',
-      image: 'sole.jpeg'
-    },
-    {
-      id: 2,
-      name: 'Fiore di Lino',
-      notes: 'Iris · Cotone · Muschio bianco',
-      description: 'Delicato come il mattino, perfetto per i momenti di calma e semplicità.',
-      price: '€ 32',
-      bgColor: 'linear-gradient(135deg, #e8eaf0, #c5c8d5)',
-      image: 'abbraccio.jpeg'
-    },
-    {
-      id: 3,
-      name: 'Giardino d\'Estate',
-      notes: 'Rosa · Gelsomino · Legno di sandalo',
-      description: 'Un bouquet floreale che abbraccia dolcemente, perfetto per i momenti di serenità.',
-      price: '€ 38',
-      tag: 'Novità',
-      bgColor: 'linear-gradient(135deg, #f0dde8, #d4a0b8)',
-      image: 'pomeriggioFiorito.jpeg'
+export class Collection implements OnInit {
+  private readonly fallbackImages = ['sole.jpeg', 'abbraccio.jpeg', 'pomeriggioFiorito.jpeg'];
+
+  products: CollectionProduct[] = [];
+  loading = false;
+  errorMsg = '';
+
+  constructor(
+    private supabase: SupabaseService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.loadProducts();
+  }
+
+  async loadProducts() {
+    this.loading = true;
+    this.errorMsg = '';
+
+    try {
+      const products = await this.supabase.getProducts();
+      this.products = products.map((product, index) => this.toCollectionProduct(product, index));
+    } catch (e) {
+      console.error(e);
+      this.errorMsg = 'Non siamo riusciti a caricare la collezione.';
+    } finally {
+      this.loading = false;
+      this.cdr.markForCheck();
     }
-  ];
+  }
+
+  private toCollectionProduct(product: Product, index: number): CollectionProduct {
+    return {
+      ...product,
+      tag: product.tag?.trim() || undefined,
+      price: this.formatPrice(product.price),
+      image: product.image_url?.trim() || this.fallbackImages[index % this.fallbackImages.length]
+    };
+  }
+
+  private formatPrice(price: string): string {
+    const trimmedPrice = price.trim();
+    return trimmedPrice.startsWith('€') ? trimmedPrice : `€ ${trimmedPrice}`;
+  }
 }

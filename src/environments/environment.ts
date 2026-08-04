@@ -7,9 +7,16 @@ export const environment = {
   comingSoon: false,
 
   contact: {
-    email: 'info@jamicandles.it',
+    email: 'candelemanieanima@gmail.com',
     whatsapp: '+393663305757',
     whatsappName: 'Sonia'
+  },
+
+  emailjs: {
+    serviceId: 'service_97g0uwj',
+    templateId: 'template_m3r9r4m',
+    publicKey: 'GR1khwF5_yiqNLHmj',
+    toEmail: 'candelemanieanima@gmail.com',
   },
 
   supabase: {
