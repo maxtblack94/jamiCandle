@@ -1,0 +1,176 @@
+<div class="dashboard">
+
+  <!-- Top bar -->
+  <header class="dashboard__header">
+    <div class="dashboard__brand">
+      <span>🕯️</span>
+      <span class="dashboard__brand-name">Jami Candles — Admin</span>
+    </div>
+    <button class="dashboard__logout" (click)="logout()">Logout</button>
+  </header>
+
+  <!-- Tab nav -->
+  <nav class="dashboard__tabs">
+    <button
+      class="dashboard__tab"
+      [class.active]="activeTab === 'products'"
+      (click)="activeTab = 'products'"
+    >🕯️ Prodotti</button>
+    <button
+      class="dashboard__tab"
+      [class.active]="activeTab === 'images'"
+      (click)="activeTab = 'images'"
+    >🖼️ Immagini</button>
+  </nav>
+
+  <main class="dashboard__body">
+
+    <!-- ═══════════════════ TAB PRODOTTI ═══════════════════ -->
+    @if (activeTab === 'products') {
+      <section class="dash-section">
+        <div class="dash-section__head">
+          <h2 class="dash-section__title">Gestione Prodotti</h2>
+          <button class="btn-primary" (click)="openProductForm()">+ Nuovo prodotto</button>
+        </div>
+
+        @if (productsLoading) {
+          <div class="dash-loading">Caricamento prodotti…</div>
+        } @else {
+          <div class="products-grid">
+            @for (p of products; track p.id) {
+              <div class="product-row">
+                @if (p.image_url) {
+                  <img class="product-row__img" [src]="p.image_url" [alt]="p.name">
+                } @else {
+                  <div class="product-row__img product-row__img--empty">🕯️</div>
+                }
+                <div class="product-row__info">
+                  <strong>{{ p.name }}</strong>
+                  <span class="product-row__notes">{{ p.notes }}</span>
+                  <span class="product-row__price">{{ p.price }}</span>
+                </div>
+                <div class="product-row__actions">
+                  <button class="btn-edit" (click)="openProductForm(p)">Modifica</button>
+                  <button class="btn-delete" (click)="confirmDeleteProduct(p)">Elimina</button>
+                </div>
+              </div>
+            }
+            @empty {
+              <p class="dash-empty">Nessun prodotto. Creane uno!</p>
+            }
+          </div>
+        }
+      </section>
+    }
+
+    <!-- ═══════════════════ TAB IMMAGINI ═══════════════════ -->
+    @if (activeTab === 'images') {
+      <section class="dash-section">
+        <div class="dash-section__head">
+          <h2 class="dash-section__title">Libreria Immagini</h2>
+          <label class="btn-primary btn-upload">
+            📤 Carica immagini
+            <input type="file" accept="image/*" multiple (change)="onUpload($event)" hidden>
+          </label>
+        </div>
+
+        @if (imagesLoading) {
+          <div class="dash-loading">Caricamento immagini…</div>
+        } @else {
+          <div class="images-grid">
+            @for (img of images; track img.name) {
+              <div class="img-card">
+                <img class="img-card__preview" [src]="img.url" [alt]="img.name" loading="lazy">
+                <div class="img-card__footer">
+                  <span class="img-card__name" [title]="img.name">{{ img.name }}</span>
+                  <button class="btn-delete" (click)="confirmDeleteImage(img)">🗑️</button>
+                </div>
+              </div>
+            }
+            @empty {
+              <p class="dash-empty">Nessuna immagine nel bucket.</p>
+            }
+          </div>
+        }
+      </section>
+    }
+
+  </main>
+</div>
+
+<!-- ═══════ MODAL FORM PRODOTTO ═══════ -->
+@if (showProductForm) {
+  <div class="modal-backdrop" (click)="closeProductForm()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3 class="modal__title">{{ editingProduct?.id ? 'Modifica' : 'Nuovo' }} prodotto</h3>
+
+      <form (submit)="saveProduct($event)" class="modal__form">
+        <div class="form-group">
+          <label>Nome candela</label>
+          <input type="text" [(ngModel)]="productForm.name" name="name" required placeholder="Es. Pomeriggio d'Ambra">
+        </div>
+        <div class="form-group">
+          <label>Note olfattive</label>
+          <input type="text" [(ngModel)]="productForm.notes" name="notes" placeholder="Es. Fico · Cedro · Vaniglia">
+        </div>
+        <div class="form-group">
+          <label>Descrizione</label>
+          <textarea [(ngModel)]="productForm.description" name="description" rows="3" placeholder="Descrizione breve del profumo…"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prezzo</label>
+            <input type="text" [(ngModel)]="productForm.price" name="price" placeholder="€ 35">
+          </div>
+          <div class="form-group">
+            <label>Tag (opzionale)</label>
+            <input type="text" [(ngModel)]="productForm.tag" name="tag" placeholder="Es. Bestseller">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Immagine</label>
+          <div class="img-picker">
+            @if (productForm.image_url) {
+              <img class="img-picker__preview" [src]="productForm.image_url" alt="preview">
+            }
+            <select [(ngModel)]="productForm.image_url" name="image_url">
+              <option value="">— Scegli dalla libreria —</option>
+              @for (img of images; track img.name) {
+                <option [value]="img.url">{{ img.name }}</option>
+              }
+            </select>
+            <span class="img-picker__or">oppure</span>
+            <label class="btn-secondary btn-upload-inline">
+              Carica nuova foto
+              <input type="file" accept="image/*" (change)="onProductImageUpload($event)" hidden>
+            </label>
+            @if (uploadingProductImg) { <span class="dash-loading">Upload…</span> }
+          </div>
+        </div>
+
+        @if (formError) { <p class="form-error">{{ formError }}</p> }
+
+        <div class="modal__actions">
+          <button type="button" class="btn-secondary" (click)="closeProductForm()">Annulla</button>
+          <button type="submit" class="btn-primary" [disabled]="formSaving">
+            {{ formSaving ? 'Salvataggio…' : 'Salva prodotto' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+<!-- ═══════ MODAL CONFERMA ELIMINAZIONE ═══════ -->
+@if (confirmMsg) {
+  <div class="modal-backdrop" (click)="cancelConfirm()">
+    <div class="modal modal--small" (click)="$event.stopPropagation()">
+      <p class="modal__confirm-text">{{ confirmMsg }}</p>
+      <div class="modal__actions">
+        <button class="btn-secondary" (click)="cancelConfirm()">Annulla</button>
+        <button class="btn-delete" (click)="runConfirm()">Elimina</button>
+      </div>
+    </div>
+  </div>
+}

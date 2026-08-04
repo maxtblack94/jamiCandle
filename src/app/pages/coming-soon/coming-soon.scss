@@ -1,0 +1,106 @@
+@use 'sass:color';
+
+.coming-soon {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-brown-dark);
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 60%, rgba(180,106,55,.25) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 50% 100%, rgba(74,58,84,.35) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 560px;
+  }
+
+  &__flame {
+    font-size: 64px;
+    margin-bottom: 24px;
+    display: block;
+    animation: flicker 2.5s ease-in-out infinite;
+  }
+
+  &__title {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 6vw, 64px);
+    color: var(--color-cream);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  &__subtitle {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: var(--color-gold);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  &__copy {
+    font-size: 16px;
+    color: var(--color-sand-dark);
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__contact-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-sand);
+  }
+
+  &__wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 50px;
+    transition: background var(--transition), transform var(--transition);
+
+    &:hover {
+      background: color.adjust(#25d366, $lightness: -6%);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__email-btn {
+    font-size: 14px;
+    color: var(--color-gold);
+    border-bottom: 1px solid rgba(230,182,108,.4);
+    transition: color var(--transition);
+
+    &:hover { color: color.adjust(#e6b66c, $lightness: 10%); }
+  }
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1) rotate(-1deg); filter: brightness(1); }
+  25%       { transform: scale(1.05) rotate(1deg); filter: brightness(1.1); }
+  50%       { transform: scale(.97) rotate(-0.5deg); filter: brightness(.95); }
+  75%       { transform: scale(1.02) rotate(0.5deg); filter: brightness(1.05); }
+}

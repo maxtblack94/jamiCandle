@@ -1,0 +1,66 @@
+.wa-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+
+  background: #25d366;
+  color: #fff;
+  border-radius: 50px;
+  padding: 14px;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, .45);
+  cursor: pointer;
+  text-decoration: none;
+
+  transition:
+    padding var(--transition),
+    gap var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+
+  &:hover {
+    padding: 14px 20px;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(37, 211, 102, .55);
+    transform: translateY(-3px);
+
+    .wa-fab__label {
+      max-width: 120px;
+      opacity: 1;
+    }
+  }
+
+  &__icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+      max-width var(--transition),
+      opacity var(--transition);
+  }
+}
+
+/* Pulsante di entrata dalla destra */
+@keyframes fab-in {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.wa-fab {
+  animation: fab-in .5s cubic-bezier(.34,1.56,.64,1) .4s both;
+}

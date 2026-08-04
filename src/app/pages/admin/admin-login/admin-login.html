@@ -1,0 +1,53 @@
+<div class="login-page">
+  <div class="login-page__bg"></div>
+
+  <div class="login-card">
+    <div class="login-card__brand">
+      <span class="login-card__flame">🕯️</span>
+      <h1 class="login-card__title">Jami Candles</h1>
+      <p class="login-card__subtitle">Area Amministratore</p>
+    </div>
+
+    <form class="login-card__form" (submit)="onSubmit($event)">
+      @if (errorMsg) {
+        <div class="login-card__error">⚠️ {{ errorMsg }}</div>
+      }
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="admin@jamicandles.it"
+          [(ngModel)]="email"
+          name="email"
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          [type]="showPwd ? 'text' : 'password'"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+          name="password"
+          required
+          autocomplete="current-password"
+        >
+        <button type="button" class="form-group__eye" (click)="showPwd = !showPwd">
+          {{ showPwd ? '🙈' : '👁️' }}
+        </button>
+      </div>
+
+      <button type="submit" class="login-card__submit" [disabled]="loading">
+        @if (loading) { <span class="spinner"></span> Accesso in corso… }
+        @else { Accedi }
+      </button>
+    </form>
+
+    <a routerLink="/" class="login-card__back">← Torna al sito</a>
+  </div>
+</div>

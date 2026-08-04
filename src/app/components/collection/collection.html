@@ -1,0 +1,38 @@
+<section class="collection" id="collection">
+  <div class="container">
+    <div class="collection__header">
+      <span class="section-eyebrow collection__eyebrow">La collezione</span>
+      <h2 class="collection__title">Tre storie da accendere.</h2>
+      <p class="collection__description">
+        Piccole serie, ingredienti essenziali, profumi pensati per abitare i tuoi spazi.
+      </p>
+    </div>
+
+    <div class="collection__grid">
+      @for (product of products; track product.id) {
+        <article class="product-card">
+          @if (product.tag) {
+            <span class="product-card__tag">{{ product.tag }}</span>
+          }
+          <div class="product-card__image">
+            <img
+              class="product-card__img"
+              [src]="product.image"
+              [alt]="product.name"
+              loading="lazy"
+            >
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__notes">{{ product.notes }}</p>
+            <h3 class="product-card__name">{{ product.name }}</h3>
+            <p class="product-card__description">{{ product.description }}</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">{{ product.price }}</span>
+              <a href="#contact" class="product-card__cta">Richiedi info</a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,124 @@
+@use 'sass:color';
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__image-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      #f5f0f7 0%,
+      #e8dde0 30%,
+      #d9c8b4 60%,
+      #c9ae8c 100%
+    );
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,250,240,.15) 0%,
+        rgba(255,250,240,.0) 40%,
+        rgba(255,250,240,.5) 100%
+      );
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    padding-top: 160px;
+    padding-bottom: 80px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__eyebrow {
+    color: var(--color-orange-light);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  &__title {
+    font-size: clamp(36px, 5vw, 64px);
+    color: var(--color-purple-deep);
+    font-weight: 600;
+    margin-bottom: 24px;
+    max-width: 620px;
+    line-height: 1.1;
+  }
+
+  &__description {
+    font-size: 18px;
+    color: var(--color-brown-mid);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 520px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  &__note {
+    position: relative;
+    z-index: 2;
+    background: var(--color-cream);
+    padding: 20px 0;
+    border-top: 1px solid rgba(61,43,32,.08);
+  }
+
+  &__note-text {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-brown-dark);
+    text-align: center;
+    letter-spacing: .3px;
+  }
+}
+
+.desktop-br { display: none; @media (min-width: 768px) { display: block; } }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+
+  &:hover { transform: translateY(-2px); }
+
+  &--primary {
+    background: var(--color-brown-dark);
+    color: var(--color-cream);
+
+    &:hover { background: var(--color-orange); }
+  }
+
+  &--secondary {
+    background: var(--color-brown-dark);
+    color: var(--color-cream);
+    opacity: .75;
+
+    &:hover { background: var(--color-orange); opacity: 1; }
+  }
+}

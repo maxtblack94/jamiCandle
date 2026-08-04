@@ -1,0 +1,111 @@
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 0;
+  transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
+
+  &.scrolled {
+    background: rgba(255,250,240,.95);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-soft);
+    padding: 12px 0;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  &__logo-text {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-purple-deep);
+    letter-spacing: .5px;
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    @media (max-width: 768px) { display: none; }
+  }
+
+  &__link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brown-dark);
+    letter-spacing: .5px;
+    transition: color var(--transition);
+
+    &:hover { color: var(--color-orange); }
+  }
+
+  &__cta {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-cream);
+    background: var(--color-brown-dark);
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: background var(--transition), transform var(--transition);
+
+    &:hover {
+      background: var(--color-orange);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+
+    @media (max-width: 768px) { display: flex; }
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--color-brown-dark);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    &.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    &.open span:nth-child(2) { opacity: 0; }
+    &.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+
+  &__mobile {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 24px 32px;
+    background: rgba(255,250,240,.98);
+    backdrop-filter: blur(12px);
+
+    &.open { display: flex; }
+
+    @media (min-width: 769px) { display: none !important; }
+
+    .navbar__cta { margin-top: 8px; }
+  }
+
+  &__admin {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brown-dark);
+    opacity: .35;
+    letter-spacing: .5px;
+    transition: opacity var(--transition), color var(--transition);
+
+    &:hover { opacity: 1; color: var(--color-orange); }
+  }
+}

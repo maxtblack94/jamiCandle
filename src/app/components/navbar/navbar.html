@@ -1,0 +1,24 @@
+<nav class="navbar" [class.scrolled]="scrolled">
+  <div class="container navbar__inner">
+    <a href="#" class="navbar__logo">
+      <span class="navbar__logo-text">Jami Candles</span>
+    </a>
+    <div class="navbar__links">
+      <a href="#collection" class="navbar__link">Collezione</a>
+      <a href="#about" class="navbar__link">Il gesto</a>
+      <a href="#contact" class="navbar__link">Contatti</a>
+      <a href="#collection" class="navbar__cta">Scopri le fragranze</a>
+      <a routerLink="/admin/login" class="navbar__admin" title="Area amministratore">Admin</a>
+    </div>
+    <button class="navbar__burger" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="navbar__mobile" [class.open]="menuOpen">
+    <a href="#collection" class="navbar__link" (click)="toggleMenu()">Collezione</a>
+    <a href="#about" class="navbar__link" (click)="toggleMenu()">Il gesto</a>
+    <a href="#contact" class="navbar__link" (click)="toggleMenu()">Contatti</a>
+    <a href="#collection" class="navbar__cta" (click)="toggleMenu()">Scopri le fragranze</a>
+    <a routerLink="/admin/login" class="navbar__admin" (click)="toggleMenu()" title="Area amministratore">Admin</a>
+  </div>
+</nav>

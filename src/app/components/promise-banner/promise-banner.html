@@ -1,0 +1,23 @@
+<section class="promise" id="about">
+  <div class="container">
+    <div class="promise__inner">
+      <div class="promise__text">
+        <span class="section-eyebrow promise__eyebrow">La promessa</span>
+        <h2 class="promise__title">Una fiamma buona,<br>fino all'ultimo istante.</h2>
+        <p class="promise__copy">
+          Stoppini in cotone e legno, essenze selezionate e contenitori da conservare:
+          per accendere con più consapevolezza.
+        </p>
+      </div>
+      <div class="promise__pillars">
+        @for (pillar of pillars; track pillar.icon) {
+          <div class="promise__pillar">
+            <span class="promise__pillar-icon">{{ pillar.icon }}</span>
+            <h4 class="promise__pillar-title">{{ pillar.title }}</h4>
+            <p class="promise__pillar-text">{{ pillar.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
