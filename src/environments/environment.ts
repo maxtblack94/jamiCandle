@@ -4,7 +4,7 @@ export const environment = {
    * Imposta su `true` per mostrare la pagina "Sito in lavorazione"
    * anziché il sito completo.
    */
-  comingSoon: false,
+  comingSoon: true,
 
   contact: {
     email: 'candelemanieanima@gmail.com',
@@ -28,5 +28,5 @@ export const environment = {
    * 'local'    → usa le immagini statiche in public/
    * 'supabase' → carica le immagini da Supabase Storage (per il sito live)
    */
-  imageSource: 'local' as 'local' | 'supabase',
+  imageSource: 'supabase' as 'local' | 'supabase',
 };

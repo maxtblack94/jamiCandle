@@ -4,7 +4,7 @@ export const environment = {
    * Imposta su `true` per mostrare la pagina "Sito in lavorazione"
    * anziché il sito completo.
    */
-  comingSoon: false,
+  comingSoon: true,
 
   contact: {
     email: 'candelemanieanima@gmail.com',
