@@ -96,6 +96,28 @@
 
     &:hover { color: color.adjust(#e6b66c, $lightness: 10%); }
   }
+
+  &__admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 32px;
+    color: var(--color-sand);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    border: 1px solid rgba(230,182,108,.45);
+    border-radius: 999px;
+    padding: 12px 22px;
+    transition: border-color var(--transition), color var(--transition), transform var(--transition);
+
+    &:hover {
+      color: var(--color-gold);
+      border-color: rgba(230,182,108,.8);
+      transform: translateY(-2px);
+    }
+  }
 }
 
 @keyframes flicker {
